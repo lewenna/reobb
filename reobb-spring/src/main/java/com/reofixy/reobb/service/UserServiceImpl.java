@@ -3,19 +3,24 @@ package com.reofixy.reobb.service;
 import com.reofixy.reobb.core.exception.ApiRequestException;
 import com.reofixy.reobb.core.exception.ExceptionMessage;
 import com.reofixy.reobb.model.User;
+import com.reofixy.reobb.model.dto.UserDto;
+import com.reofixy.reobb.model.dto.UserUpdateRequest;
 import com.reofixy.reobb.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.core.userdetails.UsernameNotFoundException;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 @Service
 public class UserServiceImpl implements UserService {
     public UserRepository userRepository;
+    public PasswordEncoder passwordEncoder;
 
     @Autowired
-    public UserServiceImpl(UserRepository userRepository){
+    public UserServiceImpl(UserRepository userRepository, PasswordEncoder passwordEncoder){
         this.userRepository = userRepository;
+        this.passwordEncoder = passwordEncoder;
     }
 
     @Override
@@ -44,8 +49,9 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void updateUser(int id, User user) {
-        userRepository.updateUserById(id, user);
+    public void updateUser(String username, UserUpdateRequest userUpdateRequest) {
+        userUpdateRequest.setPassword(passwordEncoder.encode(userUpdateRequest.getPassword()));
+        userRepository.updateUserById(username, userUpdateRequest);
     }
 
     @Override

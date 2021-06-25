@@ -1,8 +1,6 @@
 package com.reofixy.reobb.controller;
 
-import com.reofixy.reobb.core.Utils;
-import com.reofixy.reobb.model.Post;
-import com.reofixy.reobb.model.dto.PostRequest;
+import com.reofixy.reobb.model.dto.PostDto;
 import com.reofixy.reobb.service.PostService;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -21,8 +19,8 @@ public class PostController {
     }
 
     @PostMapping("/create")
-    private ResponseEntity<?> createPost(@RequestBody PostRequest postRequest){
-        //postService.createPost(post);
+    private ResponseEntity<?> createPost(@RequestBody PostDto postDto){
+        postService.createPost(postDto);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
