@@ -22,6 +22,7 @@ public class PostController {
 
     @PostMapping("/create")
     private ResponseEntity<?> createPost(@RequestBody PostRequest postRequest){
+        //postService.createPost(post);
         return new ResponseEntity(HttpStatus.OK);
     }
 }
